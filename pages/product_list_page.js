@@ -1,50 +1,98 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import LeftBar from "./leftbar";
+
+let uniqueIdCounter = 0; // Initialize a counter outside the component
 
 export default function ProductList() {
     const customClasses = 'bg-white';
-
     const activePage = 'product_list_page'; // Set the active page dynamically
+    
+    const availability = useState('Yes');
+    const [priorityClass, setPriorityClass] = useState('bg-green-400'); // Set an initial value
 
     useEffect(() => {
-        const productCardHTML = createProductCard(
+        // Set the priority class based on the availability
+        setPriorityClass(availability === 'Yes' ? 'bg-green-400' : 'bg-red-400');
+    }, [availability]);
+
+    useEffect(() => {
+        const productCardHTML = createProductCart(
           'Iphone 15 Pro Max',
           'Phone',
           'Apple',
           'Yes',
           'RM 3499.00'
         );
-    
-        // Check if we are in a browser environment before using the document object
-        if (typeof document !== 'undefined') {
-            // Append the HTML to a container element
-            const container = document.getElementById('ContinueShow'); // Replace with the actual ID of your container
-            
-            container.innerHTML += productCardHTML;
+
+        const container = document.getElementById('ContinueShow');
+        container.innerHTML += productCardHTML;
+
+        const editButton = document.getElementById(`edit-btn-${uniqueIdCounter}`);
+        const deleteButton = document.getElementById(`delete-btn-${uniqueIdCounter}`);
+
+        if (editButton) {
+            editButton.addEventListener('click', handleEditClick);
         }
-    }, []); // Empty dependency array ensures the effect runs once after the initial render
-  
-    function handleDeleteClick() {
-        const container = document.getElementById('container');
-        const lastElement = container.lastElementChild;
-        container.removeChild(lastElement);
+
+        if (deleteButton) {
+            deleteButton.addEventListener('click', () => handleDeleteClick(productCardContainer));
+        }
+
+        return () => {
+            // Remove event listeners when component unmounts
+            if (editButton) {
+                editButton.removeEventListener('click', handleEditClick);
+            }
+        
+            if (deleteButton) {
+                deleteButton.removeEventListener('click', () => handleDeleteClick(productCardContainer));
+            }
+        };
+    }, [handleEditClick, handleDeleteClick]);
+
+    // Function to generate a unique ID
+    function generateUniqueId() {
+        return (uniqueIdCounter += 1);
     }
 
-    function createProductCard(name, category, brand, availability, price) {
+    function handleEditClick() {
+        const Editselection = confirm('Continue to edit ?');
         
+        if(Editselection){
+            console.log('Editing');
+        }
+    }
+
+    function handleDeleteClick(productCardContainer) {
+        const Deleteselection = confirm('Confirm to delete ?');
+        
+        if(Deleteselection){
+            productCardContainer.remove();
+        }
+    }
+
+    function createProductCart(name, category, brand, availability, price) {
+        const Id = generateUniqueId();
+        
+        const priorityClass = availability === 'Yes' ? 'bg-green-400' : 'bg-red-400';
+
         return `
             <div id="container" class="py-2 flex flex-row w-full h-fit border-b-[1px] border-sky-700 gap-1">
                 <h3 class="w-[30%] text-center text-black text-[24px] font-normal font-['Poppins']">${name}</h3>
+                
                 <h3 class="w-[12%] text-center text-black text-[24px] font-normal font-['Poppins']">${category}</h3>
+                
                 <h3 class="w-[12%] text-center text-black text-[24px] font-normal font-['Poppins']">${brand}</h3>
+                
                 <div class="w-[13%] flex justify-center">
-                    <h3 class="w-1/2 text-center text-black text-[24px] font-normal font-['Poppins'] bg-green-400 rounded-lg">${availability}</h3>
+                    <h3 id="Priority" class="w-1/2 text-center text-black text-[24px] font-normal font-['Poppins'] rounded-lg ${priorityClass}">${availability}</h3>
                 </div>
+                
                 <h3 class="w-[18%] text-center text-black text-[24px] font-normal font-['Poppins']">${price}</h3>
+                
                 <div class="w-[15%] flex flex-row justify-center gap-9">
-                    <button class="w-auto h-auto" ><img src="Edit_Icon_Green.png" alt="Edit Icon" /></button>
-                    <button class="w-auto h-auto" onClick="handleDeleteClick()"><img src="Delete.png" alt="Delete Icon" /></button>
-
+                    <button class="w-auto h-auto edit-btn" id="edit-btn-${Id}" title="Edit" data-id="${Id}"><img src="Edit_Icon_Green.png" alt="Edit Icon" /></button>
+                    <button class="w-auto h-auto delete-btn" id="delete-btn-${Id}" title="Delete" data-id="${Id}"><img src="Delete.png" alt="Delete Icon" /></button>
                 </div>
             </div>
         `;
