@@ -7,7 +7,8 @@ const colorNames = [
     'green',
     'yellow',
     'purple',
-    'orange'
+    'orange',
+    'black'
 ];
 
 export default function NewProduct() {
@@ -28,8 +29,6 @@ export default function NewProduct() {
         if (event.target.files.length > 0) {
             const imageUrl = URL.createObjectURL(event.target.files[0]);
             setImage(imageUrl);
-
-            alert('File loaded successfully');
         }
     };
 
@@ -66,10 +65,34 @@ export default function NewProduct() {
     const [brandValue, setBrandValue] = useState('');
     const [categoryValue, setCategoryValue] = useState('');
 
-    const handleInputChange = (event) => {
-      setInputValue(event.target.value);
+    const [chk , setchk] = useState('');
+    const [isValidInput, setIsValidInput] = useState(true);
+
+    const [wght , setwght] = useState('');
+    const [wghtValid, setwghtValid] = useState(true);
+
+    const checkInput = (event) => {
+        const value = event.target.value;
+        setchk(value);
+
+        // Check if the input matches the pattern
+        const isValid = /^\d+(\.\d{1,2})?$/.test(value);
+        setIsValidInput(isValid);
     };
-  
+
+    const checkWghtInput = (event) => {
+        const value = event.target.value;
+        setwght(value);
+
+        // Check if the input matches the pattern
+        const wghtValid = /^\d+(\.\d{1,2})?$/.test(value);
+        setwghtValid(wghtValid);
+    };
+    
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+      };
+
     const handleBrandChange = (event) => {
         setBrandValue(event.target.value);
     };
@@ -132,11 +155,11 @@ export default function NewProduct() {
     }
     
     return (
-        <div className="bg-white w-[100%] h-[1200px] flex flex-row">
+        <div className="bg-white w-[100%] flex flex-row">
             <LeftBar customClasses={customClasses} activePage={activePage} />
 
-            <div className="text-black right-0 w-full h-full p-8">
-                <form action="add_new_product_page" method="POST" className="w-[78%] h-auto flex flex-col p-5 absolute right-4 bg-gray-50 rounded-[10px] border border-zinc-600">
+            <div className="text-black w-full h-full p-8 bg-white">
+                <form action="add_new_product_page" method="POST" className="w-[78%] h-auto flex flex-col p-5 ml-[21%] bg-gray-50 rounded-[10px] border border-zinc-600">
                     <div className="flex flex-row w-full h-[50px] border-b-[1px] border-sky-700 pb-2">
                         <h1 className="w-[92%] h-full text-black text-[32px] font-normal font-['Poppins']">Add New Product</h1>
                         <button type="submit" className="w-[8%] h-full bg-teal-200 rounded-lg text-center text-black text-[28px] font-normal font-['Poppins'] hover:bg-teal-400 hover:border-[0.5px] hover:border-black">Add</button>
@@ -174,7 +197,7 @@ export default function NewProduct() {
                             <div className="flex flex-row w-full h-[30px] ">
                                 <h2 className="w-[11%] text-right text-black text-xl font-normal font-['Poppins'] ">Tag</h2>
 
-                                <div className="flex flex-row pl-5 w-[89%]">
+                                <div className="flex flex-row pl-5 w-[89%] gap-3">
                                     <label className="w-[10%] flex items-center gap-2 cursor-pointer hover:font-semibold group" title="New Arrival">
                                         <input type="radio" name="tag" value="NewArrival" className="cursor-pointer" required/>New Arrival
                                     </label>
@@ -286,7 +309,7 @@ export default function NewProduct() {
                                         </select>
                                         
                                         <div className='w-[85%] h-[30px] pl-3 flex flex-row'>
-                                            <input type="number" id="weightInput" className="w-[15%] h-full text-center border-[1px] border-black rounded-lg pl-2 pr-2 appearance-textfield [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" min={0} required />
+                                            <input input type="text" pattern="^\d+(\.\d{1,2})?$" value={wght} id="weightInput" className="w-[15%] h-full text-center border-[1px] border-black rounded-lg pl-2 pr-2 appearance-textfield [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" min={0} onChange={checkWghtInput} required />
                                             
                                             <div className="w-[10%] h-full pl-3">
                                                 <select id="weight" name="weight" className="w-full h-full text-center text-black text-xl font-normal font-['Poppins'] border-[1px] border-black rounded-lg">
@@ -294,6 +317,10 @@ export default function NewProduct() {
                                                     <option value="g">g</option>
                                                 </select>
                                             </div>
+
+                                            {!wghtValid && (
+                                                <p className="pl-3 text-red-500 font-semibold">Invalid input. Please enter a valid decimal number.(decimal.00)</p>
+                                            )}
                                         </div>
                                     </div>
                                     {/* Weight End */}
@@ -323,7 +350,7 @@ export default function NewProduct() {
                                     {/* Display Start */}
                                     <div className="flex flex-row pl-5 mt-3 w-[89%] h-[80px]">
                                         <select id="display" name="display" className="w-[15%] h-[30px] text-center text-black text-xl font-normal font-['Poppins'] border-[1px] border-black rounded-lg">
-                                            <option value="Display" selected>Display</option>
+                                            <option value="Display">Display</option>
                                             <option value="#">#</option>
                                         </select>
                                         
@@ -394,32 +421,74 @@ export default function NewProduct() {
                             
                             {/* Pin Start */}
                             <div className="flex flex-row w-full h-[30px] ">
-                            <h2 className="w-[11%] text-right text-black text-xl font-normal font-['Poppins'] ">Pin to top ?</h2>
+                                <h2 className="w-[11%] text-right text-black text-xl font-normal font-['Poppins'] ">Pin to top ?</h2>
 
-                            <div className="flex flex-row pl-10 w-[89%]">
+                                <div className="flex flex-row pl-10 w-[89%]">
 
-                                <label className="radio w-[8%] flex justify-center items-center gap-2 cursor-pointer hover:font-semibold" htmlFor="pinOnTopYesInput">
-                                    <input
-                                        type="radio"
-                                        id="pinOnTopYesInput"
-                                        name="Pin"
-                                        className="text-black text-[28px] font-normal font-['Poppins'] rounded-none cursor-pointer"
-                                    />
-                                    <span>Yes</span>
-                                </label>
+                                    <label className="radio w-[8%] flex justify-center items-center gap-2 cursor-pointer hover:font-semibold" htmlFor="pinOnTopYesInput">
+                                        <input
+                                            type="radio"
+                                            id="pinOnTopYesInput"
+                                            name="Pin"
+                                            className="text-black text-[28px] font-normal font-['Poppins'] rounded-none cursor-pointer"
+                                        />
+                                        <span>Yes</span>
+                                    </label>
 
-                                <label className="radio w-[8%] flex justify-center items-center gap-2 cursor-pointer hover:font-semibold" htmlFor="pinOnTopNoInput">
-                                    <input
-                                        type="radio"
-                                        id="pinOnTopNoInput"
-                                        name="Pin"
-                                        className="text-black text-[28px] font-normal font-['Poppins'] rounded-none cursor-pointer"
-                                    />
-                                    <span>No</span>
-                                </label>
+                                    <label className="radio w-[8%] flex justify-center items-center gap-2 cursor-pointer hover:font-semibold" htmlFor="pinOnTopNoInput">
+                                        <input
+                                            type="radio"
+                                            id="pinOnTopNoInput"
+                                            name="Pin"
+                                            className="text-black text-[28px] font-normal font-['Poppins'] rounded-none cursor-pointer"
+                                        />
+                                        <span>No</span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
                             {/* Pin End */}
+
+                            {/* Price Start */}
+                            <div className="flex flex-row w-full h-[30px] mt-3">
+                                <h2 className="w-[11%] text-right text-black text-xl font-normal font-['Poppins'] ">Product Price</h2>
+
+                                <div className="flex flex-row pl-10 w-[89%]">
+
+                                    <span
+                                    className="w-[5%] h-full text-black text-xl uppercase 
+                                    font-normal font-['Poppins'] border-[1px] border-black rounded-l-lg
+                                    mb-3 flex items-center justify-center"
+                                    > MYR</span>
+
+                                    <input type="text" 
+                                    pattern="^\d+(\.\d{1,2})?$"
+                                    className="w-[15%] h-full text-center border-[1px]
+                                    border-black rounded-r-lg pl-2 pr-2
+                                    appearance-textfield [&::-webkit-outer-spin-button]:appearance-none 
+                                    [&::-webkit-inner-spin-button]:appearance-none"
+                                    value={chk}
+                                    onChange={checkInput}
+
+                                    min={0} required 
+                                    />
+
+                                    {!isValidInput && (
+                                        <p className="pl-3 text-red-500 font-semibold">Invalid input. Please enter a valid decimal number.(decimal.00)</p>
+                                    )}
+
+                                </div>
+                            </div>
+                            {/* Price End */}
+
+                            {/* Description Start */}
+                            <div className="flex flex-row w-full h-[100px] mt-6">
+                                <h2 className="w-[11%] text-right text-black text-xl font-normal font-['Poppins'] ">Description</h2>
+
+                                <div className="flex flex-row pl-10 w-[89%]">
+                                    <textarea id='description' className="w-[25%] h-full border-[1px] border-black rounded-lg resize-none p-2 overflow-auto" required />
+                                </div>
+                            </div>
+                            {/* Description End */}
 
                         </div>
                     </div>
