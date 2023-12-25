@@ -7,6 +7,8 @@ export default function Brand() {
     const [items, setItems] = useState([]);
     const [brandName, setBrandName] = useState('');
     const [category, setCategory] = useState('');
+    const [editing, setEditing] = useState(false);
+    const [editItemId, setEditItemId] = useState(null);
 
     const data = [  // declare the database data here to print the data
         { Id: 1, name1: "Apple", name2: "Phone" },
@@ -30,6 +32,17 @@ export default function Brand() {
     // Function edit button 
     const handleEdit = (id) => {
         console.log(`Edit button clicked for item with ID: ${id}`);
+
+        // Find the item with the specified ID
+        const selectedItem = items.find(item => item.Id === id);
+
+        // Set the form inputs with the selected item's values
+        setBrandName(selectedItem.name1);
+        setCategory(selectedItem.name2);
+
+        // Set editing mode and the ID of the item being edited
+        setEditing(true);
+        setEditItemId(id);
     };
 
     // Function delete button 
@@ -43,24 +56,34 @@ export default function Brand() {
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
-        // Validate form inputs if needed
+        if (editing) {
+            // If in editing mode, update the existing item
+            setItems(prevItems => 
+                prevItems.map(item =>
+                    item.Id === editItemId ? { ...item, name1: brandName, name2: category } : item
+                )
+            );
 
-        // Create a new item based on form inputs
-        const newItem = {
-            Id: items.length + 1, // You may want to use a better way to generate unique IDs
-            name1: brandName,
-            name2: category,
-        };
+            // Reset the form and exit editing mode
+            setBrandName('');
+            setCategory('');
+            setEditing(false);
+            setEditItemId(null);
+        } else {
+            // Create a new item based on form inputs
+            const newItem = {
+                Id: items.length + 1,
+                name1: brandName,
+                name2: category,
+            };
 
-        // Update the state with the new item
-        setItems((prevItems) => [...prevItems, newItem]);
+            // Update the state with the new item
+            setItems((prevItems) => [...prevItems, newItem]);
 
-        // Reset form inputs
-        setBrandName('');
-        setCategory('');
-
-        // Force a re-render by triggering a state change
-        setItems((prevItems) => [...prevItems]);
+            // Reset form inputs
+            setBrandName('');
+            setCategory('');
+        }
     };
 
     return(
@@ -106,7 +129,7 @@ export default function Brand() {
                         </div>
                         
                         <div className="flex flex-row w-full h-[35px] mt-4 pl-[11%] items-center">
-                            <button type="submit" className="w-[8%] h-full bg-teal-200 rounded-lg text-center text-black text-[20px] font-normal font-['Poppins'] hover:bg-teal-400 hover:text-white">Add</button>
+                            <button type="submit" className="w-[8%] h-full bg-teal-200 rounded-lg text-center text-black text-[20px] font-normal font-['Poppins'] hover:bg-teal-400 hover:text-white">{editing ? 'Update' : 'Add'}</button>
                         </div>
                     </form>
 
