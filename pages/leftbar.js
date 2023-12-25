@@ -1,4 +1,5 @@
 const LeftBar = ({activePage}) => {
+    const isEditActive = activePage === 'edit_page';
     const isProductListActive = activePage === 'product_list_page';
     const isNewProductActive = activePage === 'add_new_product_page';
     const isBrandActive = activePage === 'brand_page';
@@ -16,9 +17,9 @@ const LeftBar = ({activePage}) => {
                 <div className="w-full h-full grid content-center justify-center">
                     <h1 className="text-black text-[26px] font-normal font-['Oxygen']">Admin_Name</h1>
 
-                    <div className="w-fit h-full flex flex-row items-center group" title="Edit" >
-                        <img className="w-5 h-5 filter brightness-50 grayscale-50 cursor-pointer group-hover:brightness-100 group-hover:grayscale-0" src="Edit_Icon.png"/>
-                        <h2 className="pl-2 text-gray-500 text-[20px] font-normal font-['Oxygen'] cursor-pointer group-hover:text-gray-100">Edit</h2>
+                    <div className={`w-fit h-full flex flex-row items-center group ${isEditActive ? 'active' : ''}`} title="Edit" onClick={() => location.href = "edit_page"}>
+                        <img className={`w-5 h-5 filter cursor-pointer group-hover:brightness-100 group-hover:grayscale-0 ${isEditActive ? 'brightness-100 grayscale-0' : 'brightness-50 grayscale-50'}`} src="Edit_Icon.png"/>
+                        <h2 className={`pl-2 text-[20px] font-normal font-['Oxygen'] cursor-pointer group-hover:text-gray-100 ${isEditActive ? 'text-gray-100' : 'text-gray-500'}`}>Edit</h2>
                     </div>
                 </div>
             </div>

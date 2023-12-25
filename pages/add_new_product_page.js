@@ -186,7 +186,7 @@ export default function NewProduct() {
                                 </div>
                                 
                                 <input type="file" id="file" ref={fileInputRef} className="hidden" onChange={loadFile} />
-                                <label htmlFor="file" className="bg-teal-200 rounded-[10px] w-[12%] h-full cursor-pointer text-center text-black text-[20px] font-normal font-['Poppins'] hover:bg-teal-400" onClick={handleClick}>Image Select</label>
+                                <button type='button' htmlFor="file" className="bg-teal-200 rounded-[10px] w-[12%] h-full cursor-pointer text-center text-black text-[20px] font-normal font-['Poppins'] hover:bg-teal-400" onClick={handleClick}>Image Select</button>
 
                             </div>
                         </div>

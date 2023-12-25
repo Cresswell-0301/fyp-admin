@@ -16,7 +16,7 @@ export default function Category() {
         { Id: 3, name1: "Phone Case", name2: "Phone Model, Material, Hardness, Color" },
         { Id: 4, name1: "Earphone", name2: "Connection Type,Type,Audio Compatibility,Active Noise-Cancellation,Sensitivity,Function,In Box" },
         { Id: 5, name1: "Cable", name2: "Input,Output, (? to ?),Material, Length,Colour, Packing Accessories,Features,Support, Current Output" },
-        { Id: 6, name1: "Wireless Earphone", name2: "Connection Type,Type,Audio Compatibility,Active Noise-Cancellation,Sensitivity,Wireless Type,Function,Color,In Box" },
+        { Id: 6, name1: "Wireless Earphone", name2: "Connection Type,Type,Audio Compatibility,Active Noise-Cancellation,Sensitivity,Wireless Type,Function,Color,In Box" }
     ];
 
     useEffect(() => {
