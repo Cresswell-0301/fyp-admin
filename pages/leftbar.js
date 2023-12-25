@@ -3,10 +3,11 @@ const LeftBar = ({activePage}) => {
     const isNewProductActive = activePage === 'add_new_product_page';
     const isBrandActive = activePage === 'brand_page';
     const isCategoryActive = activePage === 'category_page';
+    const isAddCategoryActive = activePage === 'add_category_page';
     const isOrderActive = activePage === 'order_list_page';
 
     return (
-        <div className="w-[320px] h-[700px] bg-blue-300 rounded-[10px] my-7 mx-5 p-5 flex flex-col fixed">
+        <div className="w-[320px] h-[750px] bg-blue-300 rounded-[10px] my-7 mx-5 p-5 flex flex-col fixed">
             
             {/* Top Start */}
             <div className="w-full h-[80px] flex flex-row">
@@ -55,7 +56,13 @@ const LeftBar = ({activePage}) => {
 
                     <a href="category_page" className={`group ${isCategoryActive ? 'active' : ''}`} title="Category">
                         <button className={`w-[180px] h-[50px] rounded-[10px] border border-sky-800 text-black text-[20px] font-normal font-['Poppins'] ${isCategoryActive ? 'bg-white' : ''} group-hover:bg-white`}>
-                        Category
+                        Category List
+                        </button>
+                    </a>
+
+                    <a href="add_category_page" className={`group ${isAddCategoryActive ? 'active' : ''}`} title="AddCategory">
+                        <button className={`w-[180px] h-[50px] rounded-[10px] border border-sky-800 text-black text-[20px] font-normal font-['Poppins'] ${isAddCategoryActive ? 'bg-white' : ''} group-hover:bg-white`}>
+                        Add Category
                         </button>
                     </a>
                     

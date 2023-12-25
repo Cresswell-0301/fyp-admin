@@ -4,7 +4,6 @@ import LeftBar from "./leftbar";
 let uniqueIdCounter = 0; // Initialize a counter outside the component
 
 export default function ProductList() {
-    const customClasses = 'bg-white';
     const activePage = 'product_list_page'; // Set the active page dynamically
     
     const availability = useState('Yes');
@@ -100,7 +99,7 @@ export default function ProductList() {
 
     return (
         <div className="bg-white w-screen h-screen flex flex-row">
-            <LeftBar customClasses={customClasses} activePage={activePage}/>
+            <LeftBar activePage={activePage}/>
 
             <div className="text-black absolute inset-y-0 right-0 w-4/5 p-8 ">
                 <div id="ContinueShow" className="w-full h-full flex flex-col p-5 bg-gray-50 rounded-[10px] border border-zinc-600 overflow-y-auto">

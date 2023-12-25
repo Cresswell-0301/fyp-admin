@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import LeftBar from "./leftbar"
 
 export default function Brand() {
-    const customClasses = 'bg-white';
     const Page = 'brand_page';  // Set the active page dynamically
     const [items, setItems] = useState([]);
     const [brandName, setBrandName] = useState('');
@@ -88,7 +87,7 @@ export default function Brand() {
 
     return(
         <div className="bg-white w-auto h-auto flex flex-row">
-            <LeftBar customClasses={customClasses} activePage={Page} />
+            <LeftBar activePage={Page} />
 
             <div className="bg-white text-black w-4/5 min-h-screen h-auto p-8 ml-[20%]">
                 <div id="ContinueShow" className="w-full h-full flex flex-col p-5 bg-gray-50 rounded-[10px] border border-zinc-600">

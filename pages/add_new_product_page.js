@@ -12,7 +12,6 @@ const colorNames = [
 ];
 
 export default function NewProduct() {
-    const customClasses = 'bg-white';
     const activePage = 'add_new_product_page'; // Set the active page dynamically
     
     const YesInputRef = useRef(null);
@@ -156,7 +155,7 @@ export default function NewProduct() {
     
     return (
         <div className="bg-white w-[100%] flex flex-row">
-            <LeftBar customClasses={customClasses} activePage={activePage} />
+            <LeftBar activePage={activePage} />
 
             <div className="text-black w-full h-full p-8 bg-white">
                 <form action="add_new_product_page" method="POST" className="w-[78%] h-auto flex flex-col p-5 ml-[21%] bg-gray-50 rounded-[10px] border border-zinc-600">
