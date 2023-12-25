@@ -13,15 +13,6 @@ export default function Brand() {
         { Id: 1, name1: "Apple", name2: "Phone" },
         { Id: 2, name1: "Samsung", name2: "Tablet" },
         { Id: 3, name1: "Vivo", name2: "Charger" },
-        { Id: 4, name1: "Apple", name2: "Phone" },
-        { Id: 5, name1: "Samsung", name2: "Tablet" },
-        { Id: 6, name1: "Vivo", name2: "Charger" },
-        { Id: 7, name1: "Apple", name2: "Phone" },
-        { Id: 8, name1: "Samsung", name2: "Tablet" },
-        { Id: 9, name1: "Vivo", name2: "Charger" },
-        { Id: 10, name1: "Apple", name2: "Phone" },
-        { Id: 11, name1: "Samsung", name2: "Tablet" },
-        { Id: 12, name1: "Vivo", name2: "Charger" },
     ];
 
     useEffect(() => {
