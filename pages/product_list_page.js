@@ -17,6 +17,8 @@ export default function ProductList() {
     const [isValidInput, setIsValidInput] = useState(true); // State to track input validity
     const YesInputRef = useRef(null);
     const NoInputRef = useRef(null);
+    const [image, setImage] = useState(null);
+    const fileInputRef = useRef(null);
 
     const data = [  // declare the database data here to print the data
         { Id: 1, name: "Iphone 15 Pro Max", category: "Mobile", brand: "Apple", availability: "Yes", price: "RM 3499.00" },
@@ -50,6 +52,48 @@ export default function ProductList() {
             setSelectedItemId(id);
         }
     }
+
+    const handleClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const loadFile = (event) => {
+        const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
+        const maxFileSize = 2 * 1024 * 1024; // 2MB
+        const recommendedWidth = 300;
+        const recommendedHeight = 290;
+
+        if (event.target.files.length > 0) {
+            const selectedFile = event.target.files[0];
+
+            // Check file format
+            if (!allowedFormats.includes(selectedFile.type)) {
+                alert('Please select a valid file format (PNG, JPG, JPEG).');
+                return;
+            }
+
+            // Check file size
+            if (selectedFile.size > maxFileSize) {
+                alert('File size exceeds the maximum limit of 2MB.');
+                return;
+            }
+
+            // Create URL for the selected file
+            const imageUrl = URL.createObjectURL(selectedFile);
+
+            // Set the image source
+            setImage(imageUrl);
+
+            // Optionally, you can check the dimensions of the image
+            const img = new Image();
+            img.onload = function () {
+                if (img.width !== recommendedWidth || img.height !== recommendedHeight) {
+                    alert(`Recommended image size is ${recommendedWidth}px x ${recommendedHeight}px.`);
+                }
+            };
+            img.src = imageUrl;
+        }
+    };
 
     function handleDeleteClick(id) {
         const Deleteselection = confirm('Confirm to delete ?');
@@ -122,11 +166,38 @@ export default function ProductList() {
 
                     {/* Form Start */}
                     <form method="POST" id='myForm' className='hidden flex-col w-full h-full' onSubmit={handleSubmit}>
+                        
+                        <div className="flex flex-row w-full h-[20%] mt-4">
+                            <div image={image} className="w-[12%] h-[140px] rounded-xl bg-gray-300" 
+                            style={{ backgroundImage: image ? `url(${image})` : 'none', 
+                            backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+
+                            <div className="w-[88%] h-full pl-5 flex flex-col">
+                                <div className="flex flex-col text-gray-500 text-xl font-normal font-['Poppins'] pb-2">
+                                    <div className="flex flex-row w-full">
+                                        <span className="w-[18%]">Acceptable file formats</span>
+                                        <span className="w-[82%]">: PNG, JPG, JPEG</span>
+                                    </div>
+
+                                    <div className="flex flex-row w-full">
+                                        <span className="w-[18%]">Recommended Size</span>
+                                        <span className="w-[82%]">: 300px x 290px</span>
+                                    </div>
+
+                                    <span>Image size cannot be larger than 2MB</span>
+                                </div>
+                                
+                                <input type="file" id="file" ref={fileInputRef} className="hidden" onChange={loadFile} />
+                                <button type='button' htmlFor="file" className="bg-teal-200 rounded-[10px] w-[12%] h-full cursor-pointer text-center text-black text-[20px] font-normal font-['Poppins'] hover:bg-teal-400" onClick={handleClick}>Image Select</button>
+
+                            </div>
+                        </div>
+
                         {/* Product Start */}
                         <div className="flex flex-row w-full h-[35px] mt-4 items-center">
                             <h2 className="w-[12%] text-xl text-right font-normal font-['Poppins']">Product Name</h2>
                             <div className="flex flex-row ml-5 w-[88%] h-full">
-                                <input type="text" id="productName" className="w-[20%] border-[1px] border-black rounded-lg pl-2 pr-2 text-center font-normal" 
+                                <input type="text" id="productName" className="w-[20%] border-[1px] border-black rounded-lg pl-2 pr-2 text-center font-semibold" 
                                 value={productName} 
                                 onChange={(e) => setProductName(e.target.value)}
                                 required />
@@ -197,7 +268,7 @@ export default function ProductList() {
                             <div className="flex flex-row w-[88%] h-full text-[18px] font-normal font-['Poppins']">
                                 
                                 <div className="flex flex-row pl-5 w-full">
-                                    <div className='w-[85%] h-[30px] pl-3 flex gap-2 text-center'>
+                                    <div className='w-[20%] h-[30px] flex gap-6 text-center justify-center'>
 
                                         {/* Yes Btn */}
                                         <input type="button" 
@@ -210,7 +281,7 @@ export default function ProductList() {
                                         <button
                                             type='button'
                                             id='yes-btn'
-                                            className={`w-[6%] h-[30px] border-[1px] border-black rounded-lg font-semibold hover:bg-gray-300 hover:border-gray-300 cursor-pointer ${availability === 'Yes' && productName !== '' ? 'bg-green-400' : 'bg-transparent'}`}
+                                            className={`w-[30%] h-[30px] border-[1px] border-black rounded-lg font-semibold hover:bg-green-300 hover:border-gray-300 cursor-pointer ${availability === 'Yes' && productName !== '' ? 'bg-green-400' : 'bg-transparent'}`}
                                             title="Yes"
                                             onClick={() => handleButtonClick('Yes')}
                                         >
@@ -228,7 +299,7 @@ export default function ProductList() {
                                         <button
                                             type='button'
                                             id='no-btn'
-                                            className={`w-[6%] h-[30px] border-[1px] border-black rounded-lg font-semibold hover:bg-gray-300 hover:border-gray-300 cursor-pointer ${availability === 'No' && productName !== '' ? 'bg-red-400' : 'bg-transparent'}`}
+                                            className={`w-[30%] h-[30px] border-[1px] border-black rounded-lg font-semibold hover:bg-red-300 hover:border-gray-300 cursor-pointer ${availability === 'No' && productName !== '' ? 'bg-red-400' : 'bg-transparent'}`}
                                             title="No"
                                             onClick={() => handleButtonClick('No')}
                                         >

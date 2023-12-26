@@ -85,7 +85,7 @@ export default function Category() {
             <LeftBar activePage={Page} />
 
             <div className="bg-white text-black w-4/5 min-h-screen h-auto p-8 ml-[20%]">
-                <div id="ContinueShow" className="w-full h-full flex flex-col p-5 bg-gray-50 rounded-[10px] border border-zinc-600">
+                <div id="ContinueShow" className="w-full min-h-full h-auto flex flex-col p-5 bg-gray-50 rounded-[10px] border border-zinc-600">
                     <div className='w-full h-[50px] flex flex-row border-b-[1px] border-sky-700'>
                         <h1 className="w-full h-full text-black text-[32px] font-normal font-['Poppins']">Category List</h1>
 

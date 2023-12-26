@@ -25,9 +25,40 @@ export default function NewProduct() {
     };
 
     const loadFile = (event) => {
+        const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
+        const maxFileSize = 2 * 1024 * 1024; // 2MB
+        const recommendedWidth = 300;
+        const recommendedHeight = 290;
+
         if (event.target.files.length > 0) {
-            const imageUrl = URL.createObjectURL(event.target.files[0]);
+            const selectedFile = event.target.files[0];
+
+            // Check file format
+            if (!allowedFormats.includes(selectedFile.type)) {
+                alert('Please select a valid file format (PNG, JPG, JPEG).');
+                return;
+            }
+
+            // Check file size
+            if (selectedFile.size > maxFileSize) {
+                alert('File size exceeds the maximum limit of 2MB.');
+                return;
+            }
+
+            // Create URL for the selected file
+            const imageUrl = URL.createObjectURL(selectedFile);
+
+            // Set the image source
             setImage(imageUrl);
+
+            // Optionally, you can check the dimensions of the image
+            const img = new Image();
+            img.onload = function () {
+                if (img.width !== recommendedWidth || img.height !== recommendedHeight) {
+                    alert(`Recommended image size is ${recommendedWidth}px x ${recommendedHeight}px.`);
+                }
+            };
+            img.src = imageUrl;
         }
     };
 
