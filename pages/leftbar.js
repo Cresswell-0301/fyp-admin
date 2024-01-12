@@ -6,9 +6,10 @@ const LeftBar = ({activePage}) => {
     const isCategoryActive = activePage === 'category_page';
     const isAddCategoryActive = activePage === 'add_category_page';
     const isOrderActive = activePage === 'order_list_page';
+    const isSlidesActive = activePage === 'slides';
 
     return (
-        <div className="w-[320px] h-[750px] bg-blue-300 rounded-[10px] my-7 mx-5 p-5 flex flex-col fixed">
+        <div className="w-[320px] h-[780px] bg-blue-300 rounded-[10px] my-7 mx-5 p-5 flex flex-col fixed">
             
             {/* Top Start */}
             <div className="w-full h-[80px] flex flex-row">
@@ -70,7 +71,7 @@ const LeftBar = ({activePage}) => {
                 </div>
                 {/* Category End */}
 
-                {/* Order End */}
+                {/* Order Start */}
                 <h1 className="pt-5 pb-1 text-black text-[26px] font-normal font-['Oxygen']">Order</h1>
 
                 <div className="flex flex-col text-center gap-3">
@@ -82,9 +83,21 @@ const LeftBar = ({activePage}) => {
                 </div>
                 {/* Order End */}
 
+                {/* Slide Start */}
+                {/* <h1 className="pt-5 pb-1 text-black text-[26px] font-normal font-['Oxygen']">Slide</h1> */}
+
+                <div className="flex flex-col text-center gap-3 pt-8">
+                    <a href="slides" className={`group ${isSlidesActive ? 'active' : ''}`} title="Slide List">
+                        <button className={`w-[180px] h-[50px] rounded-[10px] border border-sky-800 text-black text-[20px] font-normal font-['Poppins'] ${isSlidesActive ? 'bg-white' : ''} group-hover:bg-white`}>
+                        Manage Slides
+                        </button>
+                    </a>
+                </div>
+                {/* Slide End */}
+
             </div>
 
-            <div className="h-[70px] text-center">
+            <div className="h-[70px] text-center pt-5">
                 <a href="/" className="group">
                     <button className="w-[180px] h-[50px] rounded-[10px] border border-sky-800 text-black text-[20px] font-normal font-['Poppins'] group-hover:bg-white">
                     Sign Out
